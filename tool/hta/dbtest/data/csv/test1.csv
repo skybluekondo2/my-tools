@@ -1,0 +1,12 @@
+id,title,sql_command,db_type,schema_id
+1,"review log","select top 10 * from (
+select f1 as [№],f2 as [ドキュメント名],f3 as [指摘箇所],f4 as [指摘日],f5 as [最終更新日],f6 as [指摘者],f7 as [指摘事項],f8 as [回答者],f9 as [回答内容],f10 as [回答日],f11 as [対応期限日],f12 as [ステータス],f13 as [承認者],f14 as [承認日],f15 as [LO],f16 as [請求],f17 as [勧誘],f18 as [材発],f19 as [変更データ],f20 as [共通],f21 as [サブシス] from [V5.0 レビュー記録表$] where isnumeric(f1)
+) where [ドキュメント名] like '%%1%';","excel",1
+2,"file path list","select title as value_, id as key_, sql_id from file_paths.csv;"
+3,"file path","select path,file from file_paths.csv where id = %1;"
+4,"review list","select top 100 [No],[レビュー日],[レビュー者],[指摘事項],[ステータス] from (select [f1] as [No],[V4#0 レビュー者記入欄] as 機能名,f3 as ドキュメント名,f4 as [レビュー日],f5 as [レビュー者],f6 as [指摘事項],[担　当　者　記　入　欄] as [対応者],f8 as [対応内容],f9 as [対応日],[ステータス],[レビュー者記入欄],f12 as [確認日],[LO],[請求] as [請],[勧誘] as [勧],[材発] as [商],[変更_データ] as  [変],[共通] as [共],[サブシス] as [サ] from [レビュー記録表$] where isNumeric(f1) and not f3 is null order by cint(f1) asc) where [ステータス] <> '回答済';"
+5,"review list","select top 10 f1 as [No],レビュー者記入欄 as 機能グループ,f3 as ドキュメント名,f4 as レビュー日,f5 as レビュー者,f6 as 区分,f7 as 指摘事項,担当者記入欄 as 対応者,f9 as 対応内容,f10 as 対応日,レビュー者記入欄1 as 確認者,f12 as 確認日,f13 as 共通課題 from [レビュー記録表$] where isNumeric(f1) and not f3 is null order by cint(f1) desc;"
+6,"レビュー記録(外部設計)-V5.0(u-can)","select top 10 * from (
+select f1 as [№],f2 as [ドキュメント名],f3 as [指摘箇所],f4 as [指摘日],f5 as [最終更新日],f6 as [指摘者],f7 as [指摘事項],f8 as [回答者],f9 as [回答内容],f10 as [回答日],f11 as [対応期限日],f13 as [承認者],f14 as [承認日] from ['V5#0 レビュー記録表$'] where isnumeric([f1])
+) where [ドキュメント名] like '%%' and [№] <= '740' and len([№]) > 2 order by 1 desc;","excel",2
+7,"excel-funcs","select a.title as key_,a.sql_id as val_ from sql_commands.csv a,file_paths.csv b where a.db_type = 'excel' and a.schema_id = b.schema_id;","csv",1
